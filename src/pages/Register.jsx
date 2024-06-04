@@ -1,26 +1,32 @@
 // import React from "react";
 // import { useForm } from "react-hook-form";
 // import { Link, useLocation, useNavigate } from "react-router-dom";
-// import Swal from "sweetalert2";
+
 // import useAuth from "../Components/CustomHook/useAuth";
 // import usePublicAxiosSecure from "../Components/CustomHook/usePublicAxiosSecure";
 // import SocailLogin from "../Components/SocailLogin/SocailLogin";
 // import authenticaton from "../assets/others/authentication2.png";
 // import woodImg from "../assets/reservation/wood-grain-pattern-gray1x.png";
 
+import axios from "axios";
 import Lottie from "lottie-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import animationData from "../../Animation - 1717208947732.json";
 import useAuth from "../components/shared/CustomHook/useAuth";
+import useAxiosSecure from "../components/shared/CustomHook/useAxiosSecure";
 import HeadingComp from "../components/shared/HeadingComp/Headingcomp";
 import SocialLogin from "../components/shared/SocialLogin/SocialLogin";
 
 const Register = () => {
-  const { createForGoogle, createEmailAndPassword, UpdateUser } = useAuth();
-  //   const [axiosPublicSecure] = usePublicAxiosSecure();
+  const { createEmailAndPassword, UpdateUser } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
+  const [userPhoto, setUserPhoto] = useState("");
   const navigate = useNavigate();
-  //   const location = useLocation();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -28,40 +34,65 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (user) => {
+    const FileUpload = { image: user.UploadPhoto[0] };
+    const upload_api_image_bb = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_IMAGE_BB_API_KEY
+    }`;
+
     try {
       const data = await createEmailAndPassword(user.email, user.password);
       console.log(data);
       if (data) {
         try {
-          await UpdateUser(user.name, user?.PhotoURL);
-          navigate(location?.state ? location.state : "/");
+          const res = await axios.post(upload_api_image_bb, FileUpload, {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          });
+          console.log(res.data.status);
+          if (res.data.status === 200) {
+            setUserPhoto(res?.data?.data?.display_url);
+            console.log(userPhoto);
+            try {
+              await UpdateUser(user.name, res?.data?.data?.display_url);
+              const userInfo = {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: res?.data?.data?.display_url,
+              };
+              try {
+                const res = await axiosSecure.post("/users", userInfo);
+                console.log(res);
+                if (res.data.insertedId) {
+                  navigate(location?.state ? location.state : "/");
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "User Created Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                }
+              } catch (err) {
+                console.log(err);
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          }
         } catch (err) {
           console.log(err);
         }
-
-        //   try {
-        //     const userObj = {
-        //       name: user?.name,
-        //       email: user?.email,
-        //     };
-        //     const res = await axiosPublicSecure.post("/dashboard/users", userObj);
-        //     console.log(res.data);
-        //     Swal.fire({
-        //       position: "center",
-        //       icon: "success",
-        //       title: "User Created Successfully",
-        //       showConfirmButton: false,
-        //       timer: 1500,
-        //     });
-        //
-        //   } catch (err) {
-        //     console.log(err);
-        //   }
       }
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "User Already Exist please Login !",
+      });
+      navigate("/login");
     }
-    // data.reset();
   };
   return (
     <div>
@@ -85,7 +116,7 @@ const Register = () => {
                       </label>
                       <input
                         {...register("name", { required: true })}
-                        type="Name"
+                        type="text"
                         name="name"
                         placeholder="Enter your Name"
                         className="px-4 text-sm w-full border-2 py-2"
@@ -99,20 +130,22 @@ const Register = () => {
                     </div>
                     <div className="w-full md:w-1/2">
                       <label className="label">
-                        <span className="label-text">PhotoURL</span>
+                        <span className="label-text">User Type</span>
                       </label>
-                      <input
-                        {...register("PhotoURL", { required: true })}
-                        type="text"
-                        name="PhotoURL"
-                        placeholder="Photo Url"
-                        className="px-4 text-sm w-full border-2 py-2"
-                      />
-                      {errors.PhotoURL && (
-                        <span className="text-sm text-red-700">
-                          This field is required
-                        </span>
-                      )}
+                      <select
+                        className="px-4 w-full md:1/2
+                         border-2  text-sm py-2"
+                        defaultValue={"default"}
+                        {...register("role", {
+                          required: "Email is required",
+                        })}
+                      >
+                        <option disabled value={"default"}>
+                          Select Type Please
+                        </option>
+                        <option value="user">User</option>
+                        <option value="deliveryMan">DeliveryMan</option>
+                      </select>
                     </div>
                   </div>
                   <div className="flex flex-col md:flex-row gap-1  justify-between">
@@ -165,6 +198,22 @@ const Register = () => {
                         </p>
                       )}
                     </div>
+                  </div>
+                  <div className="w-full ">
+                    <label className="label">
+                      <span className="label-text">Upload Photo</span>
+                    </label>
+                    <input
+                      {...register("UploadPhoto")}
+                      type="file"
+                      className="px-4 w-full
+                         border-2  text-sm py-2"
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-red-700">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
                   <div className="form-control text-xl mt-2">
                     <input

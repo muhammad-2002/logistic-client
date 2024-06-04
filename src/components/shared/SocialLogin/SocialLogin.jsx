@@ -1,15 +1,26 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../CustomHook/useAuth";
+import useAxiosSecure from "../CustomHook/useAxiosSecure";
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
   const { createForGoogle, createForTwitter, createForGithub } = useAuth();
   // google Login
   const handleGoogle = async () => {
     try {
-      await createForGoogle();
+      const res = await createForGoogle();
+      if (res.user) {
+        const userInfo = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+          role: "user",
+        };
+        const response = await axiosSecure.post("/users", userInfo);
+      }
       navigate("/", { state: { form: location }, replace: true });
     } catch (err) {
       console.log(err);

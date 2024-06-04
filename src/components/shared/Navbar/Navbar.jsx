@@ -64,34 +64,24 @@ const Navbar = () => {
                 <span>Home</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/add-coffee"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-[]#1874C1 border-b-4 border-[#291410]"
-                    : "hover:text-[]#1874C1"
-                }
-              >
-                <span>Add Product</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/My Cart"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-[#1874C1] border-b-4 border-[#1874C1]"
-                    : "hover:text-[#1874C1]"
-                }
-              >
-                <span>My Cart</span>
-              </NavLink>
-            </li>
+
+            {user && (
+              <li>
+                <NavLink
+                  onClick={() => setSideOpen(!sideOpen)}
+                  to="/dashboard"
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "text-[#1874C1] border-b-4 border-[#1874C1]"
+                      : "hover:text-[#1874C1]"
+                  }
+                >
+                  <span>Dashboard</span>
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
         {/* end */}
@@ -108,11 +98,11 @@ const Navbar = () => {
           {user ? (
             <button
               onClick={handleUserOpen}
-              className="border-2 border-[#00BEF2] rounded-full w-[40px]"
+              className="border-2 p-0 border-[#00BEF2] rounded-full h-[40px]  w-[40px]"
             >
               <img
                 src={`${user?.photoURL}`}
-                alt=""
+                alt="image"
                 className="w-full h-full rounded-full"
               />
             </button>
@@ -138,7 +128,7 @@ const Navbar = () => {
             } flex flex-col  min-w-[250px] items-center gap-2   shadow-lg bg-white text-black dark:bg-white  px-1 py-4 top-[72px]   z-50`}
           >
             <h1 className="text-md font-normal ">{user?.displayName}</h1>
-            <Link to="dashboard">Dashboard</Link>
+            <Link to="/dashboard">Dashboard</Link>
 
             <button
               onClick={handleLogOut}
@@ -210,21 +200,23 @@ const Navbar = () => {
                 <span>Add Product</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                onClick={() => setSideOpen(!sideOpen)}
-                to="/myCart"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-[#1874C1] border-b-4 border-[#1874C1]"
-                    : "hover:text-[#1874C1]"
-                }
-              >
-                <span>My Cart</span>
-              </NavLink>
-            </li>
+            {user && (
+              <li>
+                <NavLink
+                  onClick={() => setSideOpen(!sideOpen)}
+                  to="/dashboard"
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "text-[#1874C1] border-b-4 border-[#1874C1]"
+                      : "hover:text-[#1874C1]"
+                  }
+                >
+                  <span>Dashboard</span>
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
 

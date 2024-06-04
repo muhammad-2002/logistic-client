@@ -12,3 +12,9 @@ body {
 canvas {
   border: 2px solid gray;
 }
+/* styles.css */
+.text-gradient {
+  background: linear-gradient(to right, #00bef2, #17469e);
+
+  -webkit-text-fill-color: transparent;
+}

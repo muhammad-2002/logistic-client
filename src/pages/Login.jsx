@@ -44,7 +44,12 @@ const Login = () => {
         navigate(form);
       }
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Don't have a user please Register!",
+      });
+      navigate("/register");
     }
   };
   const handleCaptcha = (e) => {

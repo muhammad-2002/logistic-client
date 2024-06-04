@@ -3,7 +3,7 @@ import React from "react";
 const HeadingComp = ({ lightText, boldText }) => {
   return (
     <div className="space-y-3">
-      <h1 className=" text-center uppercase text-2xl font-bold open-sans ">
+      <h1 className=" text-center uppercase text-3xl font-bold open-sans ">
         <span className="font-light">{lightText} </span>
         {boldText}
       </h1>
