@@ -59,6 +59,7 @@ const Register = () => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                phone: user.phone,
                 image: res?.data?.data?.display_url,
               };
               try {
@@ -199,22 +200,49 @@ const Register = () => {
                       )}
                     </div>
                   </div>
-                  <div className="w-full ">
-                    <label className="label">
-                      <span className="label-text">Upload Photo</span>
-                    </label>
-                    <input
-                      {...register("UploadPhoto")}
-                      type="file"
-                      className="px-4 w-full
-                         border-2  text-sm py-2"
-                    />
-                    {errors.email && (
-                      <p className="text-sm text-red-700">
-                        {errors.email.message}
-                      </p>
-                    )}
+                  <div className="flex flex-col md:flex-row gap-1  justify-between">
+                    <div className="w-full md:w-1/2 ">
+                      <label className="label">
+                        <span className="label-text">Upload Photo</span>
+                      </label>
+                      <input
+                        {...register("UploadPhoto")}
+                        type="file"
+                        className="px-4 w-full
+                         border-2  text-sm py-1"
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-red-700">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="w-full md:w-1/2 ">
+                      <label className="label">
+                        <span className="label-text">Phone Number</span>
+                      </label>
+                      <input
+                        {...register("phone", {
+                          required: "Phone is required",
+                          pattern: {
+                            value: /^(01[3-9]\d{8})$/,
+                            message:
+                              "Phone number must be a valid 11-digit Bangladeshi number starting with 01 and followed by digits 3-9",
+                          },
+                        })}
+                        type="phone"
+                        placeholder="Enter your Phone Number "
+                        className="px-4 w-full
+                        border-2  text-sm py-2"
+                      />
+                      {errors.password && (
+                        <p className="text-sm text-red-700">
+                          {errors.password.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
+
                   <div className="form-control text-xl mt-2">
                     <input
                       type="submit"

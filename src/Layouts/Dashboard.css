@@ -1,0 +1,6 @@
+nav label .EZDrawer__overlay {
+  background-color: none;
+  opacity: 0;
+  z-index: -1;
+  display: none;
+}

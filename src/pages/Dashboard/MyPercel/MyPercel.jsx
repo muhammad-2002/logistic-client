@@ -2,19 +2,21 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import useAuth from "../../../components/shared/CustomHook/useAuth";
 import useAxiosSecure from "../../../components/shared/CustomHook/useAxiosSecure";
 import ParcelRow from "../../Dashboard/PerCelRow/ParcelRow";
 import HeadingComp from "./../../../components/shared/HeadingComp/Headingcomp";
 import "./MyPercel.css";
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   // const [parcels, setParcels] = useState([]);
 
   // useEffect(() => {
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["parcel"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/my-parcel");
+      const res = await axiosSecure.get(`/my-parcel/${user?.email}`);
       return res.data;
     },
   });
@@ -35,6 +37,7 @@ const MyParcels = () => {
       if (result.isConfirmed) {
         try {
           const res = await axiosSecure.delete(`/my-parcel/${parcel._id}`);
+          console.log(res);
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({

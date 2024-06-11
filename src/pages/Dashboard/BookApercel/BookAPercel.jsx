@@ -31,12 +31,14 @@ const BookAPercel = () => {
   // Watch the parcel weight field to calculate price dynamically
   watch(({ parcelWeight }) => calculatePrice(parcelWeight));
   const onSubmit = async (data) => {
-    const price = parseFloat(data.price.split(" ")[0]);
+    // const price = parseFloat(data.price.split(" ")[0]);
+    // console.log(price);
     const bookParcelObj = {
       ...data,
       email: user.email,
       name: user.displayName,
       price: price,
+
       status: "pending",
       booking_date: new Date().toLocaleDateString(),
     };
