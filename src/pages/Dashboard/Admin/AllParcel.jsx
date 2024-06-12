@@ -9,6 +9,7 @@ import HeadingComp from "../../../components/shared/HeadingComp/Headingcomp";
 const AllParcel = () => {
   const { user } = useAuth();
   const [deliveryMen] = useDeliveryMen();
+  console.log(deliveryMen);
   const [selectedParcel, setSelectedParcel] = useState(null);
   console.log(selectedParcel);
   const [startDate, setStartDate] = useState("");
@@ -34,11 +35,13 @@ const AllParcel = () => {
     parcelId,
     deliveryManId,
     approximateDeliveryDate,
-    status
+    status,
+    deliveryManEmail
   ) => {
     try {
       const response = await axiosSecure.patch(`/update-parcel/${parcelId}`, {
         deliveryManId,
+        deliveryManEmail,
         approximateDeliveryDate,
         status: "on the way",
       });
@@ -138,9 +141,13 @@ const AllParcel = () => {
             <h2 className="text-lg font-bold mb-4">Manage Parcel</h2>
             <select
               onChange={(e) => {
+                const selectedDeliveryMan = deliveryMen.find(
+                  (dm) => dm._id === e.target.value
+                );
                 setSelectedParcel({
                   ...selectedParcel,
-                  deliveryManId: e.target.value,
+                  deliveryManId: selectedDeliveryMan._id,
+                  deliveryManEmail: selectedDeliveryMan.email,
                 });
               }}
               className="px-4 py-2 border mb-4 w-full"
@@ -168,7 +175,8 @@ const AllParcel = () => {
                   selectedParcel._id,
                   selectedParcel.deliveryManId,
                   selectedParcel.approximateDeliveryDate,
-                  selectedParcel.status
+                  selectedParcel.status,
+                  selectedParcel.deliveryManEmail
                 )
               }
               className="px-4 py-2 bg-green-500 text-white mr-2"

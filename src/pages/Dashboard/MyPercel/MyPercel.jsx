@@ -7,12 +7,11 @@ import useAxiosSecure from "../../../components/shared/CustomHook/useAxiosSecure
 import ParcelRow from "../../Dashboard/PerCelRow/ParcelRow";
 import HeadingComp from "./../../../components/shared/HeadingComp/Headingcomp";
 import "./MyPercel.css";
+import ReviewModal from "./ReviewModal"; // Import ReviewModal component
+
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  // const [parcels, setParcels] = useState([]);
-
-  // useEffect(() => {
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["parcel"],
     queryFn: async () => {
@@ -20,14 +19,15 @@ const MyParcels = () => {
       return res.data;
     },
   });
-  // }, []);
 
   const [filter, setFilter] = useState("");
+  const [selectedParcel, setSelectedParcel] = useState(null); // State to track the selected parcel for review
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false); // State to control the modal visibility
 
   const handleCancel = (parcel) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be delete this!",
+      text: "You won't be able to delete this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#1874C1",
@@ -37,12 +37,11 @@ const MyParcels = () => {
       if (result.isConfirmed) {
         try {
           const res = await axiosSecure.delete(`/my-parcel/${parcel._id}`);
-          console.log(res);
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Your parcel has been deleted.",
               icon: "success",
             });
           }
@@ -54,12 +53,11 @@ const MyParcels = () => {
   };
 
   const handleReview = (parcel) => {
-    // Navigate to the review page
-    console.log("Review", parcel);
+    setSelectedParcel(parcel);
+    setIsReviewModalOpen(true); // Open the modal
   };
 
   const handlePay = (parcel) => {
-    // Handle payment
     console.log("Pay", parcel);
   };
 
@@ -72,7 +70,7 @@ const MyParcels = () => {
       <div className="mb-6">
         <HeadingComp lightText={"My"} boldText={"Parcel"}></HeadingComp>
       </div>
-      <label className="border-2 mt-16  p-4">
+      <label className="border-2 mt-16 p-4">
         Filter by status:
         <select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="">All</option>
@@ -107,6 +105,13 @@ const MyParcels = () => {
           ))}
         </tbody>
       </table>
+      {selectedParcel && (
+        <ReviewModal
+          isOpen={isReviewModalOpen}
+          onRequestClose={() => setIsReviewModalOpen(false)}
+          parcel={selectedParcel}
+        />
+      )}
     </div>
   );
 };

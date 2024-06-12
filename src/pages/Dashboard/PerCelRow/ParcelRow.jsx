@@ -45,7 +45,7 @@ const ParcelRow = ({ parcel, onUpdate, onCancel, onReview, onPay }) => {
             <MdOutlineSystemUpdateAlt />
           </button>
           <button
-            className={`p-2 text-2xl text-white rounded-md bg-red-700 hover:bg-gray-300 hover:text-black ${
+            className={`p-2 text-2xl text-white rounded-m hover:bg-gray-300 hover:text-black ${
               status === "pending"
                 ? "bg-red-700"
                 : "bg-gray-300 hover:text-white "
@@ -55,7 +55,7 @@ const ParcelRow = ({ parcel, onUpdate, onCancel, onReview, onPay }) => {
           >
             <MdDeleteOutline></MdDeleteOutline>
           </button>
-          {status === "delivered" && (
+          {status === "Delivered" && (
             <button
               className="p-2 text-2xl rounded-md text-white bg-rose-400 hover:bg-gray-300 hover:text-black "
               onClick={() => onReview(parcel)}

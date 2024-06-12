@@ -132,7 +132,7 @@ const MyDeliveryList = () => {
                 </td>
                 <td className="px-4 py-2 border">
                   <div className="flex items-center justify-center space-x-1">
-                    {parcel.status === "On The Way" && (
+                    {parcel.status === "on the way" && (
                       <>
                         <button
                           onClick={() =>
