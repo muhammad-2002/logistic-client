@@ -9,7 +9,9 @@ const useDeliveryMen = () => {
   const { data: deliveryMen = [], refetch } = useQuery({
     queryKey: ["delivery-man", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/delivery-man?role=deliveryMan`);
+      const res = await axiosSecure.get(
+        `/delivery-man?role=deliveryMan&email=${user.email}`
+      );
       return res.data;
     },
   });

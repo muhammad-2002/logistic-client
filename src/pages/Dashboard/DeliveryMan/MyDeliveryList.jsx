@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { MdCancelPresentation, MdOutlineLocationCity } from "react-icons/md";
 import Swal from "sweetalert2";
@@ -11,18 +10,17 @@ import HeadingComp from "../../../components/shared/HeadingComp/Headingcomp";
 const MyDeliveryList = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [isCanceled, setCanceled] = useState(false);
-  const [isDelivered, setDelivered] = useState(false);
-
+  const [review, setReview] = useState([]);
+  useEffect(() => {
+    const res = axiosSecure.get(`/reviews/${user?.email}`);
+    setReview(res.data);
+  }, [user.email]);
+  console.log(review);
   const fetchParcels = async () => {
-    try {
-      const response = await axiosSecure.get(
-        `/parcels?deliveryMan=${user.email}`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axiosSecure.get(
+      `/parcels?deliveryMan=${user.email}`
+    );
+    return response.data;
   };
 
   const { data: parcels = [], refetch } = useQuery({
@@ -31,14 +29,15 @@ const MyDeliveryList = () => {
   });
 
   const updateParcelStatus = async (id, status) => {
-    // if (parcels.status === "Canceled") {
-    //   Swal.fire("Sorry Allready Canceled");
-    // }
     try {
       const response = await axiosSecure.put(`/parcels/${id}`, { status });
       if (response.data.modifiedCount > 0) {
         refetch();
-        // Assuming parcels are updated directly in the query cache
+        if (status === "Delivered") {
+          // Update the delivery count for the delivery man
+          await axiosSecure.patch(`/delivery-man/${user?.email}`);
+        }
+
         Swal.fire({
           position: "center",
           icon: "success",
@@ -52,7 +51,7 @@ const MyDeliveryList = () => {
     }
   };
 
-  const handleCancel = (id, status) => {
+  const handleCancel = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you want to cancel this booking?",
@@ -64,7 +63,6 @@ const MyDeliveryList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         updateParcelStatus(id, "Cancelled");
-        setCanceled(true);
       }
     });
   };
@@ -81,19 +79,14 @@ const MyDeliveryList = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         updateParcelStatus(id, "Delivered");
-        setDelivered(true);
       }
     });
   };
 
-  // const viewLocation = (latitude, longitude) => {
-  //   history.push(`/map-view?lat=${latitude}&lng=${longitude}`);
-  // };
-
   return (
-    <div className="text-black p-7  max-w-full shadow-xl border">
+    <div className="text-black p-7 max-w-full shadow-xl border">
       <div className="mb-6">
-        <HeadingComp lightText={"My"} boldText={"Deliveries"}></HeadingComp>
+        <HeadingComp lightText={"My"} boldText={"Deliveries"} />
       </div>
 
       <div className="">
@@ -135,9 +128,7 @@ const MyDeliveryList = () => {
                     {parcel.status === "on the way" && (
                       <>
                         <button
-                          onClick={() =>
-                            viewLocation(parcel.latitude, parcel.longitude)
-                          }
+                          // onClick={() => viewLocation(parcel.latitude, parcel.longitude)}
                           className="text-white hover:from-[#17469E] hover:to-[#00BEF2] bg-gradient-to-r from-[#00BEF2] to-[#17469E] text-xl rounded-md text-center"
                         >
                           <MdOutlineLocationCity />

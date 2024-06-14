@@ -9,6 +9,7 @@ import useAxiosSecure from "./../../../components/shared/CustomHook/useAxiosSecu
 Modal.setAppElement("#root");
 
 const ReviewModal = ({ isOpen, onRequestClose, parcel }) => {
+  console.log(parcel);
   const [deliveryMen, refetch] = useDeliveryMen();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -21,9 +22,11 @@ const ReviewModal = ({ isOpen, onRequestClose, parcel }) => {
     const review = {
       userName: user?.displayName,
       userImage: user?.photoURL,
-      rating,
+      rating: parseInt(rating),
       feedback,
       deliveryManId: parcel._id,
+      reviewEmail: parcel.deliveryManEmail,
+      reviewDate: Date.now(),
     };
 
     try {
