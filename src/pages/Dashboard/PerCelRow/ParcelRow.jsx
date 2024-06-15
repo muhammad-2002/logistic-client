@@ -1,7 +1,7 @@
 // src/components/ParcelRow.js
 import React from "react";
 import {
-  MdDeleteOutline,
+  MdCancelPresentation,
   MdOutlinePayments,
   MdOutlineReviews,
   MdOutlineSystemUpdateAlt,
@@ -53,7 +53,7 @@ const ParcelRow = ({ parcel, onUpdate, onCancel, onReview, onPay }) => {
             onClick={() => onCancel(parcel)}
             disabled={status !== "pending"}
           >
-            <MdDeleteOutline></MdDeleteOutline>
+            <MdCancelPresentation />
           </button>
           {status === "Delivered" && (
             <button

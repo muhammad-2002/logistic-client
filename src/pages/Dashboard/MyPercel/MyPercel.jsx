@@ -27,21 +27,23 @@ const MyParcels = () => {
   const handleCancel = (parcel) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to delete this!",
+      text: "You won't be able to Cancel this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#1874C1",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Cancel it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await axiosSecure.delete(`/my-parcel/${parcel._id}`);
-          if (res.data.deletedCount > 0) {
+          const res = await axiosSecure.patch(`/my-parcel/${parcel._id}`, {
+            status: "Cancelled",
+          });
+          if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
-              title: "Deleted!",
-              text: "Your parcel has been deleted.",
+              title: "Canceled!",
+              text: "Your parcel has been Canceled.",
               icon: "success",
             });
           }
@@ -75,10 +77,10 @@ const MyParcels = () => {
         <select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="">All</option>
           <option value="pending">Pending</option>
-          <option value="on the way">On the Way</option>
-          <option value="delivered">Delivered</option>
-          <option value="returned">Returned</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="On The Way">On the Way</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Returned">Returned</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
       </label>
       <table className="mt-7">
