@@ -94,6 +94,14 @@ const Sidebar = () => {
               <AiFillHome></AiFillHome>
               <li>Home</li>
             </NavLink>
+            <NavLink
+              to="/dashboard/admin-home"
+              className="inline-flex justify-start gap-1 items-center"
+            >
+              {" "}
+              <AiFillHome></AiFillHome>
+              <li>Admin Home</li>
+            </NavLink>
 
             <NavLink
               to="all-parcel"

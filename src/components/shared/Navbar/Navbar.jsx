@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { FaX } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
@@ -7,10 +7,25 @@ import { MdOutlineMenu } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../CustomHook/useAuth";
+
+import useAxiosSecure from "./../CustomHook/useAxiosSecure";
+
 const Navbar = () => {
-  const { user, logOutUser } = useAuth();
+  const { logOutUser, user } = useAuth();
+  const email = user?.email;
   const [userOpen, setUserOpen] = useState(false);
   const [sideOpen, setSideOpen] = useState(false);
+  const [singleUsers, setSingleUsers] = useState("");
+  console.log(singleUsers);
+  const axiosSecure = useAxiosSecure();
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axiosSecure.get(`/users/${email}`);
+      console.log(response);
+      setSingleUsers(response?.data);
+    };
+    getData();
+  }, [email]);
 
   // user Open and close
   const handleUserOpen = () => {
@@ -65,11 +80,11 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {user && (
-              <li>
+            <li>
+              {user && singleUsers?.role === "user" && (
                 <NavLink
                   onClick={() => setSideOpen(!sideOpen)}
-                  to="/dashboard"
+                  to="/dashboard/book-a-parcel"
                   className={({ isActive, isPending }) =>
                     isPending
                       ? "pending"
@@ -80,8 +95,38 @@ const Navbar = () => {
                 >
                   <span>Dashboard</span>
                 </NavLink>
-              </li>
-            )}
+              )}
+              {user && singleUsers?.role === "admin" && (
+                <NavLink
+                  onClick={() => setSideOpen(!sideOpen)}
+                  to="/dashboard/admin-home"
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "text-[#1874C1] border-b-4 border-[#1874C1]"
+                      : "hover:text-[#1874C1]"
+                  }
+                >
+                  <span>Dashboard</span>
+                </NavLink>
+              )}
+              {user && singleUsers?.role === "deliveryMan" && (
+                <NavLink
+                  onClick={() => setSideOpen(!sideOpen)}
+                  to="/dashboard/my-delivery-list"
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "text-[#1874C1] border-b-4 border-[#1874C1]"
+                      : "hover:text-[#1874C1]"
+                  }
+                >
+                  <span>Dashboard</span>
+                </NavLink>
+              )}
+            </li>
           </ul>
         </nav>
         {/* end */}
@@ -128,7 +173,31 @@ const Navbar = () => {
             } flex flex-col  min-w-[250px] items-center gap-2   shadow-lg bg-white text-black dark:bg-white  px-1 py-4 top-[72px]   z-50`}
           >
             <h1 className="text-md font-normal ">{user?.displayName}</h1>
-            <Link to="/dashboard">Dashboard</Link>
+
+            {user && singleUsers?.role === "user" && (
+              <Link
+                onClick={() => setSideOpen(!sideOpen)}
+                to="/dashboard/book-a-parcel"
+              >
+                <span>Dashboard</span>
+              </Link>
+            )}
+            {user && singleUsers?.role === "admin" && (
+              <Link
+                onClick={() => setSideOpen(!sideOpen)}
+                to="/dashboard/admin-home"
+              >
+                <span>Dashboard</span>
+              </Link>
+            )}
+            {user && singleUsers?.role === "deliveryMan" && (
+              <Link
+                onClick={() => setSideOpen(!sideOpen)}
+                to="/dashboard/my-delivery-list"
+              >
+                <span>Dashboard</span>
+              </Link>
+            )}
 
             <button
               onClick={handleLogOut}

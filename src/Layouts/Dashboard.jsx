@@ -46,6 +46,7 @@ const Dashboard = () => {
             {isOpen ? "Hide" : "Show"} Sidebar
           </button>
         </p>
+
         <Outlet />
       </div>
     </div>

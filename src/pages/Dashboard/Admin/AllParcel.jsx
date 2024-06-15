@@ -9,9 +9,9 @@ import HeadingComp from "../../../components/shared/HeadingComp/Headingcomp";
 const AllParcel = () => {
   const { user } = useAuth();
   const [deliveryMen] = useDeliveryMen();
-  console.log(deliveryMen);
+
   const [selectedParcel, setSelectedParcel] = useState(null);
-  console.log(selectedParcel);
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -25,12 +25,11 @@ const AllParcel = () => {
   };
 
   const { data: parcels = [], refetch } = useQuery({
-    queryKey: ["parcel", startDate, endDate],
+    queryKey: ["parcel"],
     queryFn: fetchParcels,
-
-    enabled: !!startDate && !!endDate,
+    // enabled: !!startDate && !!endDate,
   });
-
+  console.log(parcels);
   const handleAssign = async (
     parcelId,
     deliveryManId,

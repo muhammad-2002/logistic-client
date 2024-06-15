@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../Layouts/Dashboard";
 import MainLayout from "../Layouts/MainLayout";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import AllDeliveryMan from "../pages/Dashboard/Admin/AllDeliveryMan";
 import AllParcel from "../pages/Dashboard/Admin/AllParcel";
 import AllUser from "../pages/Dashboard/Admin/AllUser";
@@ -46,42 +47,84 @@ const router = createBrowserRouter([
     children: [
       // user route
       {
-        path: "book-a-parcel",
-        element: <BookAPercel></BookAPercel>,
+        path: "/dashboard/admin-home",
+        element: <AdminHome></AdminHome>,
       },
       {
-        path: "my-parcel",
-        element: <MyPercel></MyPercel>,
+        path: "/dashboard/book-a-parcel",
+        element: (
+          <PrivateRoute>
+            <BookAPercel></BookAPercel>
+          </PrivateRoute>
+        ),
       },
       {
-        path: "my-profile",
-        element: <MyProfile></MyProfile>,
+        path: "/dashboard/my-parcel",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <MyPercel></MyPercel>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/my-profile",
+        element: (
+          <PrivateRoute>
+            <MyProfile></MyProfile>
+          </PrivateRoute>
+        ),
       },
       //admin route
       {
-        path: "all-parcel",
-        element: <AllParcel></AllParcel>,
+        path: "/dashboard/all-parcel",
+        element: (
+          <PrivateRoute>
+            <AllParcel></AllParcel>
+          </PrivateRoute>
+        ),
       },
       {
-        path: "all-user",
-        element: <AllUser></AllUser>,
+        path: "/dashboard/all-user",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AllUser></AllUser>
+          </PrivateRoute>
+        ),
       },
       {
-        path: "all-delivery-man",
-        element: <AllDeliveryMan></AllDeliveryMan>,
+        path: "/dashboard/all-delivery-man",
+        element: (
+          <PrivateRoute>
+            <AllDeliveryMan></AllDeliveryMan>
+          </PrivateRoute>
+        ),
       },
       //delivery man route
       {
-        path: "my-delivery-list",
-        element: <MyDeliveryList></MyDeliveryList>,
+        path: "/dashboard/my-delivery-list",
+        element: (
+          <PrivateRoute>
+            <MyDeliveryList></MyDeliveryList>
+          </PrivateRoute>
+        ),
       },
       {
-        path: "my-ratings",
-        element: <MyRatings></MyRatings>,
+        path: "/dashboard/my-ratings",
+        element: (
+          <PrivateRoute>
+            <MyRatings></MyRatings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/update-booking/:id",
-        element: <UpdateBooking></UpdateBooking>,
+        element: (
+          <PrivateRoute>
+            <UpdateBooking></UpdateBooking>
+          </PrivateRoute>
+        ),
       },
     ],
   },
