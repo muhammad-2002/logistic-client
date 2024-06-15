@@ -63,6 +63,7 @@ const ParcelRow = ({ parcel, onUpdate, onCancel, onReview, onPay }) => {
               <MdOutlineReviews />
             </button>
           )}
+
           {status === "pending" && (
             <button
               className="p-2 text-2xl text-white rounded-md bg-[#1874C1] hover:bg-gray-300 hover:text-black "

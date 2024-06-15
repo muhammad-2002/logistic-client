@@ -10,30 +10,30 @@ const AllUser = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  const [numOfParcel, setNumberOfParcel] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalUsers, setTotalUsers] = useState(0);
   const usersPerPage = 5;
-  const fetchUsers = async () => {
+
+  const fetchUsers = async ({ queryKey }) => {
+    const [_, page] = queryKey;
     try {
       const response = await axiosSecure.get(
-        `/users?role=user&page=${currentPage}&limit=${usersPerPage}`
+        `/users?role=user&page=${page}&limit=${usersPerPage}`
       );
-
-      return response.data.user;
-
-      // setTotalUsers(response.data.total);
+      setTotalUsers(response.data.total);
+      return response.data.users;
     } catch (error) {
       console.log(error);
     }
   };
+
   const { data: users = [], refetch } = useQuery({
-    queryKey: ["all-users"],
+    queryKey: ["all-users", currentPage],
     queryFn: fetchUsers,
   });
 
+  const [totalUsers, setTotalUsers] = useState(0);
+
   const handleUserRoleChange = async (userId, role) => {
-    console.log(userId, role);
     try {
       const response = await axiosSecure.patch(`/users/${userId}`, { role });
       if (response.data.modifiedCount > 0) {
@@ -70,7 +70,7 @@ const AllUser = () => {
       <div className="mb-6">
         <HeadingComp lightText={"All"} boldText={"Users"}></HeadingComp>
       </div>
-      <table className=" text-center bg-white">
+      <table className="text-center bg-white">
         <thead>
           <tr>
             <th className="w-1/5 px-4 py-2">User's Name</th>
@@ -86,26 +86,22 @@ const AllUser = () => {
               <td className="border px-4 py-2">{user.name}</td>
               <td className="border px-4 py-2">{user.phone}</td>
               <td className="border px-4 py-2">{user.parcelCount}</td>
-              <td className="border px-4 py-2 ">
+              <td className="border px-4 py-2">
                 <div className="inline-flex gap-1 items-center justify-center">
-                  {user.totalSpent}{" "}
-                  <p className="font-light">
-                    {" "}
-                    <TbCurrencyTaka />
-                  </p>
+                  {user.totalSpent} <TbCurrencyTaka />
                 </div>
               </td>
-              <td className="border px-4 py-2    space-x-2">
-                <div className="flex flex-col mx-auto  gap-1">
+              <td className="border px-4 py-2 space-x-2">
+                <div className="flex flex-col mx-auto gap-1">
                   <button
                     onClick={() => handleMakeDeliveryMan(user._id)}
-                    className="btn-sm w-[150px]  text-white bg-blue-500 hover:bg-blue-700"
+                    className="btn-sm w-[150px] text-white bg-blue-500 hover:bg-blue-700"
                   >
                     Make Delivery Man
                   </button>
                   <button
                     onClick={() => handleMakeAdmin(user._id)}
-                    className="btn-sm w-[150px]  text-white bg-green-500 hover:bg-green-700"
+                    className="btn-sm w-[150px] text-white bg-green-500 hover:bg-green-700"
                   >
                     Make Admin
                   </button>
