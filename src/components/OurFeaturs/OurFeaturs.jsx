@@ -1,16 +1,41 @@
 import { CountUp } from "countup.js";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
+import useAxiosSecure from "../shared/CustomHook/useAxiosSecure";
 import HeadingComp from "../shared/HeadingComp/Headingcomp";
 
 const OurFeatures = () => {
   const counterRef1 = useRef(null);
   const counterRef2 = useRef(null);
   const counterRef3 = useRef(null);
+  const axiosSecure = useAxiosSecure();
+  const [countData, setCountData] = useState({
+    totalBookedParcel: 0,
+    totalUser: 0,
+  });
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  const { totalBookedParcel, totalUser, totalDelivery } = countData;
 
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axiosSecure.get("/count-number");
+        console.log(res.data);
+        setCountData(res.data);
+        setDataLoaded(true); // Set data loaded to true
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getData();
+  }, [axiosSecure]);
+
+  useEffect(() => {
+    if (!dataLoaded) return; // Wait for data to be loaded
+
     const createObserver = (ref, endValue) => {
       const countUpInstance = new CountUp(ref.current, endValue);
       return new IntersectionObserver(
@@ -25,9 +50,9 @@ const OurFeatures = () => {
       );
     };
 
-    const observer1 = createObserver(counterRef1, 2000000);
-    const observer2 = createObserver(counterRef2, 7500000);
-    const observer3 = createObserver(counterRef3, 172999999);
+    const observer1 = createObserver(counterRef1, totalBookedParcel);
+    const observer2 = createObserver(counterRef2, totalDelivery.length);
+    const observer3 = createObserver(counterRef3, totalUser);
 
     if (counterRef1.current) observer1.observe(counterRef1.current);
     if (counterRef2.current) observer2.observe(counterRef2.current);
@@ -38,7 +63,7 @@ const OurFeatures = () => {
       if (counterRef2.current) observer2.unobserve(counterRef2.current);
       if (counterRef3.current) observer3.unobserve(counterRef3.current);
     };
-  }, []);
+  }, [dataLoaded, totalBookedParcel, totalUser]);
 
   return (
     <div className="lg:my-9 mt-[500px] w-[90%] mx-auto">
