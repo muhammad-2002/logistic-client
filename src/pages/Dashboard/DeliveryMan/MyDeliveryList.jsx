@@ -6,16 +6,23 @@ import Swal from "sweetalert2";
 import useAuth from "../../../components/shared/CustomHook/useAuth";
 import useAxiosSecure from "../../../components/shared/CustomHook/useAxiosSecure";
 import HeadingComp from "../../../components/shared/HeadingComp/Headingcomp";
+import LocationModal from "./LocationModat"; // Import the LocationModal component
 
 const MyDeliveryList = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [review, setReview] = useState([]);
+  const [selectedParcel, setSelectedParcel] = useState(null); // State to track the selected parcel for location modal
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control the modal visibility
+
   useEffect(() => {
-    const res = axiosSecure.get(`/reviews/${user?.email}`);
-    setReview(res.data);
+    const fetchReviews = async () => {
+      const res = await axiosSecure.get(`/reviews/${user?.email}`);
+      setReview(res.data);
+    };
+    fetchReviews();
   }, [user.email]);
-  console.log(review);
+
   const fetchParcels = async () => {
     const response = await axiosSecure.get(
       `/parcels?deliveryMan=${user.email}`
@@ -83,6 +90,11 @@ const MyDeliveryList = () => {
     });
   };
 
+  const viewLocation = (latitude, longitude) => {
+    setSelectedParcel({ latitude, longitude });
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="text-black p-7 max-w-full shadow-xl border">
       <div className="mb-6">
@@ -128,7 +140,9 @@ const MyDeliveryList = () => {
                     {parcel.status === "on the way" && (
                       <>
                         <button
-                          // onClick={() => viewLocation(parcel.latitude, parcel.longitude)}
+                          onClick={() =>
+                            viewLocation(parcel.latitude, parcel.longitude)
+                          }
                           className="text-white hover:from-[#17469E] hover:to-[#00BEF2] bg-gradient-to-r from-[#00BEF2] to-[#17469E] text-xl rounded-md text-center"
                         >
                           <MdOutlineLocationCity />
@@ -170,6 +184,14 @@ const MyDeliveryList = () => {
           </tbody>
         </table>
       </div>
+      {selectedParcel && (
+        <LocationModal
+          isOpen={isModalOpen}
+          onRequestClose={() => setIsModalOpen(false)}
+          latitude={selectedParcel.latitude}
+          longitude={selectedParcel.longitude}
+        />
+      )}
     </div>
   );
 };

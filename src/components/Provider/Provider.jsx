@@ -12,6 +12,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 
 import auth from "./../../../firebase.config";
+import usePublicAxiosSecure from "./../shared/CustomHook/usePublicAxiosSecure";
 
 export const AuthContext = createContext(null);
 const Provider = ({ children }) => {
@@ -20,6 +21,7 @@ const Provider = ({ children }) => {
   const TwitterProvider = new TwitterAuthProvider();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublicSecure = usePublicAxiosSecure();
 
   //sign in with email and password
   const createEmailAndPassword = (email, password) => {
@@ -62,21 +64,28 @@ const Provider = ({ children }) => {
     setLoading(true);
     return signOut(auth);
   };
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        if (user) {
-          setUser(user);
-          setLoading(false);
-        } else {
-          setUser(null);
-          setLoading(false);
+  const unSubscribe = useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const email = user.email;
+          const res = await axiosPublicSecure.post("/jwt", { email });
+          if (res.data.token) {
+            localStorage.setItem("accessToken", res.data.token);
+            setLoading(false);
+            setUser(user);
+          }
+        } catch (err) {
+          console.log(err);
         }
-      },
-      () => unsubscribe()
-    );
-  }, []);
+      } else {
+        setUser(null);
+        localStorage.removeItem("accessToken");
+        setLoading(false);
+      }
+    });
+    return () => unSubscribe;
+  }, [axiosPublicSecure]);
 
   const authInfo = {
     user,

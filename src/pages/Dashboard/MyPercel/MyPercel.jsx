@@ -1,6 +1,7 @@
 // src/components/MyParcels.js
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../../components/shared/CustomHook/useAuth";
 import useAxiosSecure from "../../../components/shared/CustomHook/useAxiosSecure";
@@ -10,6 +11,7 @@ import "./MyPercel.css";
 import ReviewModal from "./ReviewModal"; // Import ReviewModal component
 
 const MyParcels = () => {
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { data: parcels = [], refetch } = useQuery({
@@ -60,7 +62,7 @@ const MyParcels = () => {
   };
 
   const handlePay = (parcel) => {
-    console.log("Pay", parcel);
+    navigate("/dashboard/checkout", { state: { parcel } });
   };
 
   const filteredParcels = parcels.filter(

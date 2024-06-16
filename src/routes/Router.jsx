@@ -8,12 +8,15 @@ import AllUser from "../pages/Dashboard/Admin/AllUser";
 import BookAPercel from "../pages/Dashboard/BookApercel/BookAPercel";
 import MyDeliveryList from "../pages/Dashboard/DeliveryMan/MyDeliveryList";
 import MyRatings from "../pages/Dashboard/DeliveryMan/MyRatings";
+
 import MyPercel from "../pages/Dashboard/MyPercel/MyPercel";
+import PaymentSuccess from "../pages/Dashboard/MyPercel/paymentSucess";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import ErrorPage from "../pages/ErrorPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateBooking from "./../pages/Dashboard/BookApercel/UpdateBooking";
+import CheckoutForm from "./../pages/Dashboard/MyPercel/CheckOut";
 import Home from "./../pages/Home";
 import PrivateRoute from "./PrivateRoute";
 
@@ -125,6 +128,14 @@ const router = createBrowserRouter([
             <UpdateBooking></UpdateBooking>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/dashboard/checkout",
+        element: <CheckoutForm></CheckoutForm>,
+      },
+      {
+        path: "/dashboard/payment-success",
+        element: <PaymentSuccess></PaymentSuccess>,
       },
     ],
   },

@@ -13,6 +13,7 @@ import useAxiosSecure from "./../CustomHook/useAxiosSecure";
 const Navbar = () => {
   const { logOutUser, user } = useAuth();
   const email = user?.email;
+  console.log(email);
   const [userOpen, setUserOpen] = useState(false);
   const [sideOpen, setSideOpen] = useState(false);
   const [singleUsers, setSingleUsers] = useState("");
@@ -25,7 +26,7 @@ const Navbar = () => {
       setSingleUsers(response?.data);
     };
     getData();
-  }, [email]);
+  }, [user?.email, axiosSecure]);
 
   // user Open and close
   const handleUserOpen = () => {
