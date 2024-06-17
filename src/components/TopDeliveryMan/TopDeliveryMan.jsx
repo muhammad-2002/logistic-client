@@ -11,7 +11,7 @@ const TopDeliveryMan = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axiosPublicSecure("/top-delivery-man");
+        const res = await axiosPublicSecure.get("/top-delivery-man");
         setTopMan(res.data);
       } catch (err) {
         console.log(err);
@@ -19,17 +19,11 @@ const TopDeliveryMan = () => {
     };
     getData();
   }, [axiosPublicSecure]);
-  const sortedDeliveryMen = topMan.sort((a, b) => {
-    if (b.numberOfParcelsDelivered === a.numberOfParcelsDelivered) {
-      return b.averageRating - a.averageRating;
-    }
-    return b.numberOfParcelsDelivered - a.numberOfParcelsDelivered;
-  });
   return (
     <div className="w-[90%] mx-auto mt-10">
       <HeadingComp lightText={"Top 3"} boldText={" Delivery Man"}></HeadingComp>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-8 lg:grid-cols-3 gap-4">
-        {sortedDeliveryMen.map((item) => (
+        {topMan.map((item) => (
           <div
             key={item._id}
             className=" p-4 border sm:flex sm:space-x-6  dark:bg-gray-50 dark:text-gray-800"
@@ -44,12 +38,12 @@ const TopDeliveryMan = () => {
             <div className="flex flex-col space-y-4">
               <div>
                 <h2 className="text-2xl font-semibold">{item.name}</h2>
-                <span className="text-sm dark:text-gray-600">Delivery Man</span>
+                <span className="text-sm dark:text-gray-600">{item.role}</span>
               </div>
               <div className="space-y-1">
                 <span className="flex items-center space-x-2">
                   <span className="dark:text-gray-600">
-                    Parcel Delivered :{item.numberOfParcelsDelivered}
+                    Parcel Delivered :{item?.numberOfParcelsDelivered}
                   </span>
                 </span>
                 <span className="flex items-center space-x-2">
