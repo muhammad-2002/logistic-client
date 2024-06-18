@@ -1,6 +1,6 @@
 import axios from "axios";
 const axiosPublicSecure = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: import.meta.env.VITE_BASE_URL,
 });
 
 const usePublicAxiosSecure = () => {

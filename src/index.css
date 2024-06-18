@@ -69,3 +69,21 @@ canvas {
 .close-button:hover {
   background: #e04343;
 }
+label .EZDrawer__overlay {
+  background-color: none !;
+  opacity: 0;
+  z-index: -1;
+  display: none;
+}
+.EZDrawer .EZDrawer__overlay {
+  display: none;
+  height: 0vh !important;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.EZDrawer .EZDrawer__container {
+  width: 200px !important;
+}

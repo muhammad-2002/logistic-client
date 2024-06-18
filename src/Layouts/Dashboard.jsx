@@ -1,4 +1,6 @@
 import React from "react";
+import { MdCancel } from "react-icons/md";
+import { VscThreeBars } from "react-icons/vsc";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { Outlet } from "react-router-dom";
@@ -26,7 +28,7 @@ const Dashboard = () => {
       </Drawer>
 
       <div
-        className={`hidden md:block  md:w-[270px] ${
+        className={`hidden md:block w-[200px]  md:w-[270px] ${
           isOpen ? "w-0" : "w-0 p-5 md:p-0 "
         } transition-all duration-300`}
       >
@@ -41,9 +43,9 @@ const Dashboard = () => {
         <p className="text-end">
           <button
             onClick={toggleDrawer}
-            className="md:hidden  bg-blue-500 mb-3  text-white p-2 rounded"
+            className="md:hidden  bg-blue-500 mb-3 text-2xl  text-white p-2 rounded"
           >
-            {isOpen ? "Hide" : "Show"} Sidebar
+            {isOpen ? <MdCancel /> : <VscThreeBars />}
           </button>
         </p>
 

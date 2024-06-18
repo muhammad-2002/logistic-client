@@ -11,8 +11,8 @@ const Sidebar = () => {
   const [users] = useUsers();
   console.log(users.role);
   return (
-    <div className="w-[270px]">
-      <div className="w-[270px] fixed  min-h-screen bg-[#1874C1]">
+    <div className="">
+      <div className="md:w-[270px] w-[200px] fixed h-[800px] md:min-h-screen bg-[#1874C1]">
         <div className="p-4  flex justify-center">
           <img src={logo}></img>
         </div>

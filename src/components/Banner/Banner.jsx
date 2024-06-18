@@ -1,5 +1,6 @@
 import React from "react";
 import { BsFillSendFill } from "react-icons/bs";
+import track from "../../assets/truck-1.png";
 
 const Banner = () => {
   return (
@@ -45,7 +46,7 @@ const Banner = () => {
           </div>
         </div>
         <div className="lg:w-1/2  w-full md:w-[70%] md:mx-auto md:-mt-16 lg:mt-0  p-6">
-          <img className="w-full z-10 " src="/src/assets/truck-1.png"></img>
+          <img className="w-full z-10 " src={track}></img>
         </div>
       </div>
     </div>
