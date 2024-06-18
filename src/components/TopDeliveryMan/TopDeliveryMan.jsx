@@ -7,7 +7,7 @@ import HeadingComp from "../shared/HeadingComp/Headingcomp";
 const TopDeliveryMan = () => {
   const axiosPublicSecure = usePublicAxiosSecure();
   const [topMan, setTopMan] = useState([]);
-  console.log(topMan);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -25,6 +25,9 @@ const TopDeliveryMan = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 mt-8 lg:grid-cols-3 gap-4">
         {topMan.map((item) => (
           <div
+            data-aos="zoom-in"
+            data-aos-duration="1000"
+            data-aos-delay="200"
             key={item._id}
             className=" p-4 border sm:flex sm:space-x-6  dark:bg-gray-50 dark:text-gray-800"
           >

@@ -255,37 +255,30 @@ const Navbar = () => {
                 <span>Home</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
+
+            {user && singleUsers?.role === "user" && (
+              <Link
                 onClick={() => setSideOpen(!sideOpen)}
-                to="/product/add"
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-[#1874C1] border-b-4 border-[#1874C1]"
-                    : "hover:text-[#1874C1]"
-                }
+                to="/dashboard/book-a-parcel"
               >
-                <span>Add Product</span>
-              </NavLink>
-            </li>
-            {user && (
-              <li>
-                <NavLink
-                  onClick={() => setSideOpen(!sideOpen)}
-                  to="/dashboard"
-                  className={({ isActive, isPending }) =>
-                    isPending
-                      ? "pending"
-                      : isActive
-                      ? "text-[#1874C1] border-b-4 border-[#1874C1]"
-                      : "hover:text-[#1874C1]"
-                  }
-                >
-                  <span>Dashboard</span>
-                </NavLink>
-              </li>
+                <span>Dashboard</span>
+              </Link>
+            )}
+            {user && singleUsers?.role === "admin" && (
+              <Link
+                onClick={() => setSideOpen(!sideOpen)}
+                to="/dashboard/admin-home"
+              >
+                <span>Dashboard</span>
+              </Link>
+            )}
+            {user && singleUsers?.role === "deliveryMan" && (
+              <Link
+                onClick={() => setSideOpen(!sideOpen)}
+                to="/dashboard/my-delivery-list"
+              >
+                <span>Dashboard</span>
+              </Link>
             )}
           </ul>
         </div>
@@ -294,7 +287,7 @@ const Navbar = () => {
           <div className={`flex flex-col gap-2 top-16 pr-5`}>
             {user ? (
               <>
-                <button className="border-2 mx-auto border-[#1874C1] rounded-full w-[40px]">
+                <button className="border-2 mx-auto border-[#1874C1] rounded-full w-[40px] h-[40px] p-0">
                   <img
                     src={`${user?.photoURL}`}
                     alt=""

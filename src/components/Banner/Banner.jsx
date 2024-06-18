@@ -15,14 +15,29 @@ const Banner = () => {
       <div className="flex flex-col lg:flex-row justify-between  w-full absolute z-50">
         <div className="lg:w-1/2 w-full p-6 flex justify-center items-center ">
           <div className="space-y-5">
-            <h1 className="lg:text-7xl md:text-4xl text-3xl font-bold text-center md:text-left text-white">
+            <h1
+              data-aos="fade-right"
+              data-aos-duration="1000"
+              data-aos-delay="200"
+              className="lg:text-7xl md:text-4xl text-3xl font-bold text-center md:text-left text-white"
+            >
               <span className=" text-[#00BEF2]">Deliver</span> The Goods On Time
             </h1>
-            <p className="text-white font-medium text-center md:text-left">
+            <p
+              data-aos="fade-right"
+              data-aos-duration="1200"
+              data-aos-delay="200"
+              className="text-white font-medium text-center md:text-left"
+            >
               Ensuring timely delivery of goods, providing reliability and
               efficiency for all your logistical needs
             </p>
-            <div className="flex rounded-full  ">
+            <div
+              data-aos="fade-right"
+              data-aos-duration="1300"
+              data-aos-delay="200"
+              className="flex rounded-full  "
+            >
               <input
                 className="md:py-4 py-2  px-4 md:pr-36 lg:pr-60 -pr-5 rounded-l-md outline-none"
                 placeholder="Search Here....."
@@ -36,7 +51,12 @@ const Banner = () => {
               </div>
             </div>
             <div className="md:flex">
-              <div className="flex gap-3 ">
+              <div
+                data-aos="fade-right"
+                data-aos-duration="1400"
+                data-aos-delay="200"
+                className="flex gap-3 "
+              >
                 <h1 className="text-white">Fast Delivery </h1>
                 <h1 className="text-white">Stock Products </h1>
                 <h1 className="text-white">Network </h1>
@@ -45,7 +65,12 @@ const Banner = () => {
             </div>
           </div>
         </div>
-        <div className="lg:w-1/2  w-full md:w-[70%] md:mx-auto md:-mt-16 lg:mt-0  p-6">
+        <div
+          data-aos="fade-left"
+          data-aos-duration="1400"
+          data-aos-delay="200"
+          className="lg:w-1/2  w-full md:w-[70%] md:mx-auto md:-mt-16 lg:mt-0  p-6"
+        >
           <img className="w-full z-10 " src={track}></img>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-import axios from "axios";
 import useAuth from "./../../../components/shared/CustomHook/useAuth";
 import useAxiosSecure from "./../../../components/shared/CustomHook/useAxiosSecure";
 
@@ -19,8 +18,8 @@ const AdminHome = () => {
         const bookingsResponse = await axiosSecure.get(
           "/statistics/bookings-by-date"
         );
-        const parcelsResponse = await axios.get(
-          " http://localhost:5000/statistics/booking-delivery-comparison"
+        const parcelsResponse = await axiosSecure.get(
+          "/statistics/booking-delivery-comparison"
         );
         console.log(parcelsResponse);
 

@@ -66,10 +66,16 @@ const OurFeatures = () => {
   }, [dataLoaded, totalBookedParcel, totalUser]);
 
   return (
-    <div className="lg:my-9 mt-[500px] w-[90%] mx-auto">
+    <div className="lg:my-9 mt-[350px] md:mt-[500px] w-[90%] mx-auto">
       <HeadingComp lightText={"Our"} boldText={"features"}></HeadingComp>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3 mt-12">
-        <div className="flex">
+        <div
+          className="flex "
+          data-aos="zoom-in"
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <div className="w-[25%] flex justify-between items-start">
             <img
               src="https://dtlogistics.wpenginepowered.com/wp-content/uploads/2016/11/icon4.png"
@@ -86,7 +92,12 @@ const OurFeatures = () => {
             </p>
           </div>
         </div>
-        <div className="flex">
+        <div
+          className="flex"
+          data-aos="zoom-in"
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <div className="w-[25%] flex justify-between items-start">
             <img
               src="https://dtlogistics.wpenginepowered.com/wp-content/uploads/2016/11/icon3.png"
@@ -103,7 +114,12 @@ const OurFeatures = () => {
             </p>
           </div>
         </div>
-        <div className="flex">
+        <div
+          className="flex"
+          data-aos="zoom-in"
+          data-aos-duration="1000"
+          data-aos-delay="200"
+        >
           <div className="w-[25%] flex justify-between items-start">
             <img
               src="https://dtlogistics.wpenginepowered.com/wp-content/uploads/2016/11/icon6.png"

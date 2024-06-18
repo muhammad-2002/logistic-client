@@ -36,7 +36,7 @@ const Dashboard = () => {
       </div>
 
       <div
-        className={`flex-1 p-8   transition-all duration-300 
+        className={`flex-1 md:p-8  p-2 transition-all duration-300 
          
         `}
       >
