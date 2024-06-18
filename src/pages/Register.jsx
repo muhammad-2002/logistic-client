@@ -52,7 +52,7 @@ const Register = () => {
           console.log(res.data.status);
           if (res.data.status === 200) {
             setUserPhoto(res?.data?.data?.display_url);
-            console.log(userPhoto);
+
             try {
               await UpdateUser(user.name, res?.data?.data?.display_url);
               const userInfo = {

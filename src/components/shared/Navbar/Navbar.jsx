@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { FaX } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
@@ -8,25 +8,17 @@ import { Link, NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../CustomHook/useAuth";
 
-import useAxiosSecure from "./../CustomHook/useAxiosSecure";
+import useUsers from "../CustomHook/useUsers";
 
 const Navbar = () => {
   const { logOutUser, user } = useAuth();
   const email = user?.email;
+  const [Users, refetch] = useUsers();
+  const role = Users.role;
+  console.log(Users);
   console.log(email);
   const [userOpen, setUserOpen] = useState(false);
   const [sideOpen, setSideOpen] = useState(false);
-  const [singleUsers, setSingleUsers] = useState("");
-  console.log(singleUsers);
-  const axiosSecure = useAxiosSecure();
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axiosSecure.get(`/users/${email}`);
-      console.log(response);
-      setSingleUsers(response?.data);
-    };
-    getData();
-  }, [user?.email, axiosSecure]);
 
   // user Open and close
   const handleUserOpen = () => {
@@ -82,7 +74,7 @@ const Navbar = () => {
             </li>
 
             <li>
-              {user && singleUsers?.role === "user" && (
+              {user && role === "user" && (
                 <NavLink
                   onClick={() => setSideOpen(!sideOpen)}
                   to="/dashboard/book-a-parcel"
@@ -97,7 +89,7 @@ const Navbar = () => {
                   <span>Dashboard</span>
                 </NavLink>
               )}
-              {user && singleUsers?.role === "admin" && (
+              {user && role === "admin" && (
                 <NavLink
                   onClick={() => setSideOpen(!sideOpen)}
                   to="/dashboard/admin-home"
@@ -112,7 +104,7 @@ const Navbar = () => {
                   <span>Dashboard</span>
                 </NavLink>
               )}
-              {user && singleUsers?.role === "deliveryMan" && (
+              {user && role === "deliveryMan" && (
                 <NavLink
                   onClick={() => setSideOpen(!sideOpen)}
                   to="/dashboard/my-delivery-list"
@@ -175,7 +167,7 @@ const Navbar = () => {
           >
             <h1 className="text-md font-normal ">{user?.displayName}</h1>
 
-            {user && singleUsers?.role === "user" && (
+            {user && role === "user" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/book-a-parcel"
@@ -183,7 +175,7 @@ const Navbar = () => {
                 <span>Dashboard</span>
               </Link>
             )}
-            {user && singleUsers?.role === "admin" && (
+            {user && role === "admin" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/admin-home"
@@ -191,7 +183,7 @@ const Navbar = () => {
                 <span>Dashboard</span>
               </Link>
             )}
-            {user && singleUsers?.role === "deliveryMan" && (
+            {user && role === "deliveryMan" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/my-delivery-list"
@@ -256,7 +248,7 @@ const Navbar = () => {
               </NavLink>
             </li>
 
-            {user && singleUsers?.role === "user" && (
+            {user && role === "user" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/book-a-parcel"
@@ -264,7 +256,7 @@ const Navbar = () => {
                 <span>Dashboard</span>
               </Link>
             )}
-            {user && singleUsers?.role === "admin" && (
+            {user && role === "admin" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/admin-home"
@@ -272,7 +264,7 @@ const Navbar = () => {
                 <span>Dashboard</span>
               </Link>
             )}
-            {user && singleUsers?.role === "deliveryMan" && (
+            {user && role === "deliveryMan" && (
               <Link
                 onClick={() => setSideOpen(!sideOpen)}
                 to="/dashboard/my-delivery-list"

@@ -6,8 +6,13 @@ import { ImProfile } from "react-icons/im";
 import { TbBrandBooking } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/logo.png";
+import useAuth from "../../../components/shared/CustomHook/useAuth";
 import useUsers from "../../../components/shared/CustomHook/useUsers";
 const Sidebar = () => {
+  const { logOutUser } = useAuth();
+  const handleLogOut = () => {
+    logOutUser();
+  };
   const [users] = useUsers();
   console.log(users.role);
   return (
