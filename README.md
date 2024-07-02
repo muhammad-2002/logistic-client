@@ -15,8 +15,10 @@ The Parcel Management System is designed to streamline the process of booking, m
    - User type selection during registration.
 
 3. **Parcel Management:**
-   - Admin can assign delivery men to parcels and update delivery status.
-   - Users can update and cancel their bookings under certain conditions.
+   - Admin can assign delivery man to parcels and update and  delivery status.
+   - Users can  update and cancel their bookings under certain conditions when delivery Man Percel Deliverd then user give ratting 
+     delivery man .
+   - delivery Man show map and Parcel Status Update and cancel status.
 
 ## Technologies Used
 
@@ -33,6 +35,9 @@ The Parcel Management System is designed to streamline the process of booking, m
    git clone https://github.com/your-repo/parcel-management-system.git
    cd parcel-management-system
 
-   
-This README.md file now includes the "Install Dependencies" section under the "Local Setup Instructions" part, as requested. Adjust the placeholders like `[Project Name]`, `[License Name]`, and URLs according to your project details.
+2.**Install Dependencies:**
+   ```bash
+   npm install
+
+
 
