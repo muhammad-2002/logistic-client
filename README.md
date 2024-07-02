@@ -1,4 +1,4 @@
-# Parcel Management System
+# Logistic International
 
 ## Project Overview
 The Parcel Management System is designed to streamline the process of booking, managing, and delivering parcels. It addresses the challenges of parcel delivery management by providing a comprehensive platform for users, delivery personnel, and administrators. The system enhances efficiency and transparency, ensuring smooth operations for all stakeholders.
