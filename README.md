@@ -1,11 +1,7 @@
 # Parcel Management System
 
-## Live Site URL
-[logistic International](https://logistics-international-7d03b.web.app/)
-
-## Admin Credentials
-- **Username:** nusrat124@gmail.com
-- **Password:** asdASD@2024
+## Project Overview
+The Parcel Management System is designed to streamline the process of booking, managing, and delivering parcels. It addresses the challenges of parcel delivery management by providing a comprehensive platform for users, delivery personnel, and administrators. The system enhances efficiency and transparency, ensuring smooth operations for all stakeholders.
 
 ## Features
 
@@ -18,33 +14,21 @@
    - Social login integration (Google).
    - User type selection during registration.
 
-3. **User Roles:**
-   - **User:** Can book parcels, view their parcels, and manage their profile.
-   - **Delivery Men:** Can view assigned deliveries, update delivery statuses, and view reviews.
-   - **Admin:** Can manage all parcels, users, and delivery men.
-
-4. **Parcel Booking:**
-   - Users can book parcels with detailed information.
-   - Automatic calculation of delivery cost based on parcel weight.
-
-5. **Parcel Management:**
+3. **Parcel Management:**
    - Admin can assign delivery men to parcels and update delivery status.
    - Users can update and cancel their bookings under certain conditions.
 
-6. **Notifications:**
-   - SweetAlert and toast notifications for all CRUD operations and authentication events.
+## Technologies Used
 
-7. **Dashboard Statistics:**
-   - Admin dashboard includes charts for bookings by date and comparison between booked and delivered parcels.
+- **Frontend:** HTML, CSS, JavaScript, React
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Authentication:** Firebase Authentication
+- **Hosting:** Firebase Hosting
 
-8. **Top Delivery Men:**
-   - Display top 3 delivery men based on the number of deliveries and average ratings.
+## Local Setup Instructions
 
-9. **Reviews:**
-   - Users can leave reviews for delivery men after successful delivery.
-   - Delivery men can view their reviews.
-
-10. **Search and Filter:**
-    - Admin can search parcels by date range.
-    - Users can filter parcels by status.
-
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-repo/parcel-management-system.git
+   cd parcel-management-system
