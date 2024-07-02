@@ -32,3 +32,7 @@ The Parcel Management System is designed to streamline the process of booking, m
    ```bash
    git clone https://github.com/your-repo/parcel-management-system.git
    cd parcel-management-system
+
+   
+This README.md file now includes the "Install Dependencies" section under the "Local Setup Instructions" part, as requested. Adjust the placeholders like `[Project Name]`, `[License Name]`, and URLs according to your project details.
+
